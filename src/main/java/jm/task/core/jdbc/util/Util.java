@@ -11,11 +11,15 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 public class Util {
+    private final static String DB_DRIVER = "com.mysql.jdbc.Driver";
+    private final static String DB_URL = "jdbc:mysql://localhost:3306/preproject";
+    private final static String DB_USER = "root";
+    private final static String DB_PASS = "admin";
 
     public Connection getJDBCConnection() {
         Connection connection = null;
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost/preproject", "root", "admin");
+            connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -24,14 +28,10 @@ public class Util {
 
     public SessionFactory getHibernateConnection() {
         Properties properties = new Properties();
-        properties.put(Environment.DRIVER, "com.mysql.jdbc.Driver");
-        properties.put(Environment.URL, "jdbc:mysql://localhost:3306/preproject");
-        properties.put(Environment.USER, "root");
-        properties.put(Environment.PASS, "admin");
-//        properties.put(Environment.DIALECT, "org.hibernate.dialect.MySQL8Dialect");
-        properties.put(Environment.HBM2DDL_AUTO, "create-drop");
-        properties.put(Environment.SHOW_SQL, "true");
-
+        properties.put(Environment.DRIVER, DB_DRIVER);
+        properties.put(Environment.URL, DB_URL);
+        properties.put(Environment.USER, DB_USER);
+        properties.put(Environment.PASS, DB_PASS);
 
         return new Configuration()
                 .setProperties(properties)
